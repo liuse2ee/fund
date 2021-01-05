@@ -1,0 +1,58 @@
+
+ten-stock:
+  investing:
+    list:
+      - name: US达达
+        code: 1161535
+        holding-rate: 5.06
+        isUSA: true
+
+      - name: HK美团点评
+        code: 1096030
+        holdingRate: 4.91
+        isUSA: false
+
+      - name: HK金蝶国际
+        code: 100019
+        holdingRate: 4.83
+        isUSA: false
+
+      - name: TW台积电
+        code: 103240
+        holdingRate: 4.6
+        isUSA: false
+
+      - name: 韩国三星电子
+        code: 43433
+        holdingRate: 4.46
+        isUSA: false
+
+      - name: USA SeaLimited
+        code: 1052403
+        holdingRate: 4.4
+        isUSA: true
+
+      - name: JP激光半导体
+        code: 952471
+        holdingRate: 4.34
+        isUSA: false
+
+      - name: JP任天堂
+        code: 946265
+        holdingRate: 4.29
+        isUSA: false
+
+      - name: HK腾讯控股
+        code: 102047
+        holdingRate: 4.12
+        isUSA: false
+
+      - name: HK金山软件
+        code: 100143
+        holdingRate: 4.02
+        isUSA: false
+server:
+  port: 8055
+spring:
+  application:
+    name: fund

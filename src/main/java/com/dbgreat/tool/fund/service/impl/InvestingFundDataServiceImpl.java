@@ -21,6 +21,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,6 +42,8 @@ public class InvestingFundDataServiceImpl implements FundDataService {
 
     private ResponseData data;
 
+    private static final String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
+
     @Override
     public StockInfo getDataByCode(String code) {
         return getFundDataByCode(code);
@@ -48,7 +53,20 @@ public class InvestingFundDataServiceImpl implements FundDataService {
     public ResponseData getData() {
         List<StockInfo> list = new ArrayList<>();
         ResponseData data = new ResponseData();
-        log.info("当地时间：" + LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        ZonedDateTime utcTime = ZonedDateTime.now(ZoneOffset.UTC);
+
+
+        ZoneId bjZone = ZoneId.of("GMT+8");
+        ZoneId nyZone = ZoneId.of("America/New_York");
+        ZonedDateTime bjTime = utcTime.withZoneSameInstant(bjZone);
+        ZonedDateTime nyTime = utcTime.withZoneSameInstant(nyZone);
+        String utcTimeStr = utcTime.format(DateTimeFormatter.ofPattern(DATE_PATTERN));
+        String bjTimeStr = bjTime.format(DateTimeFormatter.ofPattern(DATE_PATTERN));
+        String nyTimeStr = nyTime.format(DateTimeFormatter.ofPattern(DATE_PATTERN));
+        data.setBjTime(bjTimeStr);
+        data.setUsaTime(nyTimeStr);
+
+        log.info("UTC时间：{},北京时间：{},美国东部时间:{}", utcTimeStr, bjTimeStr, nyTimeStr);
 
         investingConfig.getList().forEach(cfg -> {
             StockInfo realInfo = getFundDataByCode(cfg.getCode());
@@ -60,7 +78,7 @@ public class InvestingFundDataServiceImpl implements FundDataService {
                 realInfo.setHoldingRate(cfg.getHoldingRate());
 
                 //加权平均盈亏率
-                if (!cfg.getIsUSA() || isOpenTime()) {
+                if (!cfg.getIsUSA() || showUSAStock(nyTime)) {
                     realInfo.setWeightPercent(BigDecimal.valueOf(cfg.getHoldingRate()).multiply(BigDecimal.valueOf(realInfo.getChangePercent())).doubleValue());
                 } else {
                     //美股非开盘时间特殊处理
@@ -69,7 +87,7 @@ public class InvestingFundDataServiceImpl implements FundDataService {
                 }
 
                 list.add(realInfo);
-                if (!cfg.getIsUSA() || isOpenTime()) {
+                if (!cfg.getIsUSA() || showUSAStock(nyTime)) {
                     data.setTotalHoldingRate(data.getTotalHoldingRate() + cfg.getHoldingRate());
                     data.setTotalWeightPercent(data.getTotalWeightPercent() + realInfo.getWeightPercent());
                 }
@@ -95,19 +113,22 @@ public class InvestingFundDataServiceImpl implements FundDataService {
         return sdf.format(date);
     }
 
-
-    private boolean isOpenTime() {
-        LocalDateTime nowTime = LocalDateTime.now();
-        LocalDateTime openTime = LocalDateTime.of(nowTime.getYear(), nowTime.getMonth(), nowTime.getDayOfMonth(), 9, 30);
-        LocalDateTime endTime = LocalDateTime.of(nowTime.getYear(), nowTime.getMonth(), nowTime.getDayOfMonth(), 16, 00);
-
-        return nowTime.isAfter(openTime) && nowTime.isBefore(endTime);
+    /**
+     * 是否显示美投
+     *
+     * @param usaTime 美东(西五区)时间
+     * @return
+     */
+    private boolean showUSAStock(ZonedDateTime usaTime) {
+        LocalDateTime localDateTime = usaTime.toLocalDateTime();
+        LocalDateTime startTime = LocalDateTime.of(localDateTime.getYear(), localDateTime.getMonth(), localDateTime.getDayOfMonth(), 9, 30);
+        LocalDateTime endTime = LocalDateTime.of(localDateTime.getYear(), localDateTime.getMonth(), localDateTime.getDayOfMonth(), 20, 0);//北京时间开盘前都显示
+        return localDateTime.isAfter(startTime) && localDateTime.isBefore(endTime);
     }
 
     //解析字符串
     private StockInfo parseString(String str) {
         log.info(str);
-
         String content = StringEscapeUtils.unescapeJava(str);
         Document doc = Jsoup.parse(content);
         String change = doc.getElementById("chart-info-change").text();
@@ -115,7 +136,7 @@ public class InvestingFundDataServiceImpl implements FundDataService {
         String lastUpdateTime = null;
         Elements spans = doc.getElementsByTag("span");
         if (!CollectionUtils.isEmpty(spans)) {
-            lastUpdateTime = transferLongToDate("yyyy-MM-dd HH:mm:ss", Long.parseLong(spans.get(spans.size() - 1).text()));
+            lastUpdateTime = transferLongToDate(DATE_PATTERN, Long.parseLong(spans.get(spans.size() - 1).text()));
         }
 
         log.info("change: {},changePercent: {}", change, changePercent);

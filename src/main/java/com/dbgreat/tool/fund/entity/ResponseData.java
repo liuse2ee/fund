@@ -24,4 +24,9 @@ public class ResponseData implements Serializable {
      * 总加权盈亏率
      */
     private Double totalWeightPercent = 0.0;
+
+    private String bjTime;
+
+
+    private String usaTime;
 }

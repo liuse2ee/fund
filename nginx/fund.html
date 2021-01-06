@@ -5,17 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="renderer" content="webkit">
     <title>摩根太平洋科技基金实时信息</title>
-	
-<script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?c1f6b906c7df490413d3446ab14ab1ab";
-  var s = document.getElementsByTagName("script")[0]; 
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
 
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?c1f6b906c7df490413d3446ab14ab1ab";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 
 
 </head>
@@ -23,54 +22,148 @@ var _hmt = _hmt || [];
 
 <div id="message">
 
-<style type="text/css">
-table.tftable {font-size:12px;color:#333333;width:100%;border-width: 1px;border-color: #729ea5;border-collapse: collapse;}
-table.tftable th {font-size:12px;background-color:#acc8cc;border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;text-align:left;}
-table.tftable tr {background-color:#ffffff;}
-table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;}
-</style>
-<div>根据十大持仓预估涨跌幅: <span id="result"></span></div>
-<table id="tfhover" class="tftable" border="1">
+    <style type="text/css">
+        table.tftable {
+            font-size: 12px;
+            color: #333333;
+            width: 100%;
+            border-width: 1px;
+            border-color: #729ea5;
+            border-collapse: collapse;
+        }
 
-<tr><th>持仓列表</th><th>占比%</th><th>涨跌幅%</th><th>加权涨跌幅%</th><th>更新时间</th></tr>
-<tr><td id="1-1"></td><td id="1-2"></td><td id="1-3"></td ><td id="1-4"></td><td id="1-5"></td></tr>
-<tr><td id="2-1"></td><td id="2-2"></td><td id="2-3"></td ><td id="2-4"></td><td id="2-5"></td></tr>
-<tr><td id="3-1"></td><td id="3-2"></td><td id="3-3"></td ><td id="3-4"></td><td id="3-5"></td></tr>
-<tr><td id="4-1"></td><td id="4-2"></td><td id="4-3"></td ><td id="4-4"></td><td id="4-5"></td></tr>
-<tr><td id="5-1"></td><td id="5-2"></td><td id="5-3"></td ><td id="5-4"></td><td id="5-5"></td></tr>
-<tr><td id="6-1"></td><td id="6-2"></td><td id="6-3"></td ><td id="6-4"></td><td id="6-5"></td></tr>
-<tr><td id="7-1"></td><td id="7-2"></td><td id="7-3"></td ><td id="7-4"></td><td id="7-5"></td></tr>
-<tr><td id="8-1"></td><td id="8-2"></td><td id="8-3"></td ><td id="8-4"></td><td id="8-5"></td></tr>
-<tr><td id="9-1"></td><td id="9-2"></td><td id="9-3"></td ><td id="9-4"></td><td id="9-5"></td></tr>
-<tr><td id="10-1"></td><td id="10-2"></td><td id="10-3"></td><td id="10-4"></td><td id="10-5"></td></tr>
-</table>
+        table.tftable th {
+            font-size: 12px;
+            background-color: #acc8cc;
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #729ea5;
+            text-align: left;
+        }
 
-<p><small>Created by JEREMY</small></p>
+        table.tftable tr {
+            background-color: #ffffff;
+        }
+
+        table.tftable td {
+            font-size: 12px;
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #729ea5;
+        }
+    </style>
+
+    <div>根据十大持仓预估涨跌幅: <span id="result"></span>,北京时间:<span id="bjTime"></span>,美国东部时间:<span id="usaTime"></span></div>
+    <table id="tfhover" class="tftable" border="1">
+
+        <tr>
+            <th>持仓列表</th>
+            <th>占比%</th>
+            <th>涨跌幅%</th>
+            <th>加权涨跌幅%</th>
+            <th>更新时间</th>
+        </tr>
+        <tr>
+            <td id="1-1"></td>
+            <td id="1-2"></td>
+            <td id="1-3"></td>
+            <td id="1-4"></td>
+            <td id="1-5"></td>
+        </tr>
+        <tr>
+            <td id="2-1"></td>
+            <td id="2-2"></td>
+            <td id="2-3"></td>
+            <td id="2-4"></td>
+            <td id="2-5"></td>
+        </tr>
+        <tr>
+            <td id="3-1"></td>
+            <td id="3-2"></td>
+            <td id="3-3"></td>
+            <td id="3-4"></td>
+            <td id="3-5"></td>
+        </tr>
+        <tr>
+            <td id="4-1"></td>
+            <td id="4-2"></td>
+            <td id="4-3"></td>
+            <td id="4-4"></td>
+            <td id="4-5"></td>
+        </tr>
+        <tr>
+            <td id="5-1"></td>
+            <td id="5-2"></td>
+            <td id="5-3"></td>
+            <td id="5-4"></td>
+            <td id="5-5"></td>
+        </tr>
+        <tr>
+            <td id="6-1"></td>
+            <td id="6-2"></td>
+            <td id="6-3"></td>
+            <td id="6-4"></td>
+            <td id="6-5"></td>
+        </tr>
+        <tr>
+            <td id="7-1"></td>
+            <td id="7-2"></td>
+            <td id="7-3"></td>
+            <td id="7-4"></td>
+            <td id="7-5"></td>
+        </tr>
+        <tr>
+            <td id="8-1"></td>
+            <td id="8-2"></td>
+            <td id="8-3"></td>
+            <td id="8-4"></td>
+            <td id="8-5"></td>
+        </tr>
+        <tr>
+            <td id="9-1"></td>
+            <td id="9-2"></td>
+            <td id="9-3"></td>
+            <td id="9-4"></td>
+            <td id="9-5"></td>
+        </tr>
+        <tr>
+            <td id="10-1"></td>
+            <td id="10-2"></td>
+            <td id="10-3"></td>
+            <td id="10-4"></td>
+            <td id="10-5"></td>
+        </tr>
+    </table>
+
+    <p><small>Created by JEREMY</small></p>
 </div>
 </body>
 
 <script type="text/javascript">
-	window.onload=function(){
-	var tfrow = document.getElementById('tfhover').rows.length;
-	var tbRow=[];
-	for (var i=1;i<tfrow;i++) {
-		tbRow[i]=document.getElementById('tfhover').rows[i];
-		tbRow[i].onmouseover = function(){
-		  this.style.backgroundColor = '#f3f8aa';
-		};
-		tbRow[i].onmouseout = function() {
-		  this.style.backgroundColor = '#ffffff';
-		};
-	}
-	loadData();
-};
+    window.onload = function () {
+        var tfrow = document.getElementById('tfhover').rows.length;
+        var tbRow = [];
+        for (var i = 1; i < tfrow; i++) {
+            tbRow[i] = document.getElementById('tfhover').rows[i];
+            tbRow[i].onmouseover = function () {
+                this.style.backgroundColor = '#f3f8aa';
+            };
+            tbRow[i].onmouseout = function () {
+                this.style.backgroundColor = '#ffffff';
+            };
+        }
+        loadData();
+        refreshTime();
+    };
 </script>
 <script src="http://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
 <script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
 <script type="text/javascript">
     // 建立连接对象（还未发起连接）
-	var socket = new SockJS("http://3.16.214.167:8055/ws");
-	//var socket = new SockJS("http://localhost:8055/ws");
+    var socket = new SockJS("http://3.16.214.167:8055/ws");
+    //var socket = new SockJS("http://localhost:8055/ws");
 
     // 获取 STOMP 子协议的客户端对象
     var stompClient = Stomp.over(socket);
@@ -78,65 +171,104 @@ table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: so
     // 向服务器发起websocket连接并发送CONNECT帧
     stompClient.connect(
         {},
-        function connectCallback(frame) {                        
-            stompClient.subscribe('/topic/fund', 
-				function (response) {
-					if(null != response && null!= response.body && response.body.length > 0){
-						processData(response.body);                
-					}
-				}
-			);			
-		},
+        function connectCallback(frame) {
+            stompClient.subscribe('/topic/fund',
+                function (response) {
+                    if (null != response && null != response.body && response.body.length > 0) {
+                        processData(response.body);
+                    }
+                }
+            );
+        },
         function errorCallBack(error) {
             // 连接失败时（服务器响应 ERROR 帧）的回调方法
             //setMessageInnerHTML("连接失败");
-        }		
+        }
     );
-	
-	function loadData() {
-	  //var url = "http://localhost:8055/fund/data";
-	  var url = "http://3.16.214.167:8055/fund/data";
-	  var xhttp;
-	  var useCache = getQueryVariable("useCache");
-	  if("noCache" == useCache){
-		url+="?useCache=false";
-	  }
-	  xhttp=new XMLHttpRequest();
-	  xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			var  data  =this.responseText;
-		  processData(data);
-		}
-	  };
-	  xhttp.open("GET", url, true);
-	  xhttp.send();
-	};
-	function processData(data) {	  
-	  var returnData = JSON.parse(data);
-				console.log("reveiveMsg:"+ data);
-				for(var rowIndex=0;rowIndex<returnData.stockInfos.length;rowIndex++){
-					var realRowIndex= rowIndex+1;
-					var rowData = returnData.stockInfos[rowIndex];
-					document.getElementById(realRowIndex+"-1").innerHTML = rowData.name + "("+ rowData.code+")";
-					document.getElementById(realRowIndex+"-2").innerHTML = rowData.holdingRate;
-					document.getElementById(realRowIndex+"-3").innerHTML = rowData.changePercent< 0 ? "<font color='green'>"+ rowData.changePercent+"</font>":"<font color='red'>"+ rowData.changePercent+"</font>";
-					
-					document.getElementById(realRowIndex+"-4").innerHTML = rowData.weightPercent< 0 ? "<font color='green'>"+ rowData.weightPercent+"</font>":"<font color='red'>"+ rowData.weightPercent+"</font>";
-					document.getElementById(realRowIndex+"-5").innerHTML = rowData.lastUpdateTime;
-				}
-				document.getElementById("result").innerHTML =  returnData.weightPLPercent< 0 ? "<font color='green'>"+ returnData.weightPLPercent+"</font>":"<font color='red'>"+ returnData.weightPLPercent+"</font>";
-				              
-				};
-				
-	function getQueryVariable(variable){
-       var query = window.location.search.substring(1);
-       var vars = query.split("&");
-       for (var i=0;i<vars.length;i++) {
-               var pair = vars[i].split("=");
-               if(pair[0] == variable){return pair[1];}
-       }
-       return(false);
-	};
+
+    function loadData() {
+        //var url = "http://localhost:8055/fund/data";
+        var url = "http://3.16.214.167:8055/fund/data";
+        var xhttp;
+        var useCache = getQueryVariable("useCache");
+        if ("noCache" === useCache) {
+            url += "?useCache=false";
+        }
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var data = this.responseText;
+
+                processData(data);
+
+            }
+        };
+        xhttp.open("GET", url, true);
+        xhttp.send();
+    };
+
+    function processData(data) {
+        var returnData = JSON.parse(data);
+        console.log("reveiveMsg:" + data);
+        for (var rowIndex = 0; rowIndex < returnData.stockInfos.length; rowIndex++) {
+            var realRowIndex = rowIndex + 1;
+            var rowData = returnData.stockInfos[rowIndex];
+            document.getElementById(realRowIndex + "-1").innerHTML = rowData.name + "(" + rowData.code + ")";
+            document.getElementById(realRowIndex + "-2").innerHTML = rowData.holdingRate;
+            document.getElementById(realRowIndex + "-3").innerHTML = rowData.changePercent < 0 ? "<font color='green'>" + rowData.changePercent + "</font>" : "<font color='red'>" + rowData.changePercent + "</font>";
+
+            document.getElementById(realRowIndex + "-4").innerHTML = rowData.weightPercent < 0 ? "<font color='green'>" + rowData.weightPercent + "</font>" : "<font color='red'>" + rowData.weightPercent + "</font>";
+            document.getElementById(realRowIndex + "-5").innerHTML = rowData.lastUpdateTime;
+        }
+        document.getElementById("result").innerHTML = returnData.weightPLPercent < 0 ? "<font color='green'>" + returnData.weightPLPercent + "</font>" : "<font color='red'>" + returnData.weightPLPercent + "</font>";
+
+    };
+
+    function getQueryVariable(variable) {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            if (pair[0] == variable) {
+                return pair[1];
+            }
+        }
+        return (false);
+    };
+</script>
+
+<script>
+    function getLocalTime(i) {
+        if (typeof i !== "number") {
+            return new Date();
+        }
+        var d = new Date();
+        var len = d.getTime();
+        var offset = d.getTimezoneOffset() * 60000;
+        var utcTime = len + offset;
+        return new Date(utcTime + 3600000 * i);
+    }
+
+    // 时间设置end
+
+    function refreshTime() {
+        // 调用时间
+        var setdate = setInterval(() => {
+            bjTime = getLocalTime(8)
+                .toString()
+                .split("GMT+")[0]
+                .toString();
+            usaTime = getLocalTime(-5)
+                .toString()
+                .split("GMT+")[0]
+                .toString();
+
+            document.getElementById("bjTime").innerHTML = bjTime;
+            document.getElementById("usaTime").innerHTML = usaTime;
+        }, 1000);
+
+        // 调用时间end
+    };
 </script>
 </html>
 

@@ -51,6 +51,8 @@ public class InvestingConfig {
 
         private Boolean isUSA;
 
+        private String dataSource;
+
     }
 
 }

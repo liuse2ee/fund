@@ -2,7 +2,7 @@ package com.dbgreat.tool.fund.task;
 
 
 import com.dbgreat.tool.fund.entity.ResponseData;
-import com.dbgreat.tool.fund.service.FundDataService;
+import com.dbgreat.tool.fund.service.DataService;
 import com.dbgreat.tool.fund.websocket.WebSocketService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class TaskSchedule {
     @Autowired
-    private FundDataService dataService;
+    private DataService dataService;
 
     @Autowired
     private WebSocketService webSocketService;

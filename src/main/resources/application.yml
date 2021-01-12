@@ -20,7 +20,7 @@ ten-stock:
     - name: TW台积电
       code: 103240
       holding-rate: 6.70
-      isUSA: true
+      isUSA: false
       dataSource: investing
 
     - name: HK阿里巴巴

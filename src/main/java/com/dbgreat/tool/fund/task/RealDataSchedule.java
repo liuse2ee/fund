@@ -21,7 +21,7 @@ public class RealDataSchedule {
     //0 */10 * * * ?
     //@Scheduled(initialDelay = 5000, fixedRate = 300000)
 
-    @Scheduled(cron = "0 */1 * ? * MON-FRI")
+    @Scheduled(cron = "0 */30 * ? * MON-FRI")
     public void runTask() {
         log.info("start push message!");
         //获取数据

@@ -55,7 +55,9 @@
         }
     </style>
 
-    <div>根据十大持仓预估涨跌幅: <span id="result"></span>,北京时间:<span id="bjTime"></span>,美国东部时间:<span id="usaTime"></span></div>
+    <div>根据十大持仓预估涨跌幅: <span id="result"></span></div>
+    <div>昨日预估涨跌幅: <span id="estimateChangePercent"></span>,昨日官方涨跌幅:<span id="officialChangePercent"></span></div>
+    <div>北京时间:<span id="bjTime"></span>,美国东部时间:<span id="usaTime"></span></div>
     <table id="tfhover" class="tftable" border="1">
 
         <tr>
@@ -222,7 +224,20 @@
         }
         document.getElementById("result").innerHTML = returnData.weightPLPercent < 0 ? "<font color='green'>" + returnData.weightPLPercent + "</font>" : "<font color='red'>" + returnData.weightPLPercent + "</font>";
 
-    };
+
+        if(null == returnData.historyData.officialChangePercent){
+            document.getElementById("officialChangePercent").innerHTML = "官网未更新";
+        }else{
+            document.getElementById("officialChangePercent").innerHTML = returnData.historyData.officialChangePercent < 0 ? "<font color='green'>" + returnData.historyData.officialChangePercent + "</font>" : "<font color='red'>" + returnData.historyData.officialChangePercent + "</font>";
+        }
+
+
+        if(null == returnData.historyData.estimateChangePercent){
+            document.getElementById("estimateChangePercent").innerHTML = "";
+        }else{
+            document.getElementById("estimateChangePercent").innerHTML = returnData.historyData.estimateChangePercent < 0 ? "<font color='green'>" + returnData.historyData.estimateChangePercent + "</font>" : "<font color='red'>" + returnData.historyData.estimateChangePercent + "</font>";
+        }
+    }
 
     function getQueryVariable(variable) {
         var query = window.location.search.substring(1);

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@ConfigurationProperties(prefix = "ten-stock.investing")
+@ConfigurationProperties(prefix = "ten-stock")
 @Configuration
 @Data
 public class InvestingConfig {

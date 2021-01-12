@@ -20,6 +20,7 @@ import java.util.Objects;
 public class SinaDataCollector implements DataCollector {
 
     private static final String SINA = "sina";
+
     @Override
     public StockInfo collectData(String code) {
         OkHttpClient client = new OkHttpClient().newBuilder()
@@ -31,7 +32,11 @@ public class SinaDataCollector implements DataCollector {
         try {
             String body = Objects.requireNonNull(client.newCall(request).execute().body()).string();
             if (!StringUtils.isEmpty(body)) {
-                return parseString(body);
+                if (code.contains("rt_hk")) {
+                    return parseHK(body);
+                } else {
+                    return parseUSA(body);
+                }
             }
         } catch (IOException e) {
             log.info(e.getMessage());
@@ -44,8 +49,8 @@ public class SinaDataCollector implements DataCollector {
         return SINA.equalsIgnoreCase(dataSource);
     }
 
-    //解析字符串
-    private StockInfo parseString(String str) {
+    //解析美股字符串
+    private StockInfo parseUSA(String str) {
         log.info(str);
         String[] dataArr = str.split(",");
         String change = dataArr[4];
@@ -54,4 +59,16 @@ public class SinaDataCollector implements DataCollector {
         log.info("change: {},changePercent: {},lastUpdateTime:{}", change, changePercent, lastUpdateTime);
         return new StockInfo(change, changePercent, lastUpdateTime);
     }
+
+    //解析美股字符串
+    private StockInfo parseHK(String str) {
+        log.info(str);
+        String[] dataArr = str.split(",");
+        String change = dataArr[7];
+        String changePercent = dataArr[8];
+        String lastUpdateTime = dataArr[17].replace('/','-')+" "+ dataArr[18];
+        log.info("change: {},changePercent: {},lastUpdateTime:{}", change, changePercent, lastUpdateTime);
+        return new StockInfo(change, changePercent, lastUpdateTime);
+    }
+
 }

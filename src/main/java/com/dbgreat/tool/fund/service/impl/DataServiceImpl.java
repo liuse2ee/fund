@@ -1,14 +1,20 @@
 package com.dbgreat.tool.fund.service.impl;
 
 import com.dbgreat.tool.fund.collector.DataCollector;
+import com.dbgreat.tool.fund.entity.HistoryData;
 import com.dbgreat.tool.fund.entity.InvestingConfig;
 import com.dbgreat.tool.fund.entity.ResponseData;
 import com.dbgreat.tool.fund.entity.StockInfo;
 import com.dbgreat.tool.fund.service.DataService;
+import com.jayway.jsonpath.JsonPath;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
@@ -18,6 +24,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -95,6 +102,38 @@ public class DataServiceImpl implements DataService {
             return this.data;
         }
         return getData();
+    }
+
+    @Override
+    public HistoryData getOfficialData() {
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        Request request = new Request.Builder()
+                .url("https://am.jpmorgan.com/FundsMarketingHandler/product-data?cusip=HK0000055761&country=tw&role=per&language=zh&userLoggedIn=false&version=3.37.6_1605863001")
+                .method("GET", null)
+                .addHeader("Cookie", "ppwaf_3736=!7XTPTX846XAVyDXvrke1bL2Q1n612pcCQeVMYEPhVhk9ZzS+vI+JFwAgpPiODm4zdmD/tnk7Mv63k/M=; TS01e46c65=013dd7d8c4fba66650306b48160878e73bef06a9cbf8ee9da7b499ae8594dc16379a63efdabc4805b77e78a786d72df0d4ebf41f71; ppnet_3736=!WXVSk9a3+1KGfq8avHeFWqdoRKuC4CTxgS5e1L86qhlhAnKcG0r3jVcprgX7bwBukHNKLV+E16zzq6k=; userGeo=ROW")
+                .build();
+        try {
+            String body = Objects.requireNonNull(client.newCall(request).execute().body()).string();
+            if (!StringUtils.isEmpty(body)) {
+                Double changePercent = JsonPath.read(body, "fundData.shareClass.nav.changePercentage");
+                String date = JsonPath.read(body, "fundData.shareClass.nav.date");
+                //Double change = JsonPath.read(body, "fundData.shareClass.nav.changeAmount");
+
+                HistoryData data = new HistoryData();
+                if (!StringUtils.isEmpty(date)) {
+                    data.setDate(date);
+                }
+
+                if (null != changePercent) {
+                    data.setOfficialChangePercent(changePercent);
+                }
+                return data;
+            }
+        } catch (IOException e) {
+            log.info(e.getMessage());
+        }
+        return null;
     }
 
 

@@ -1,20 +1,30 @@
+server:
+  port: 8055
+spring:
+  application:
+    name: fund
+
+  data:
+    mongodb:
+      fund:
+        uri: mongodb://127.0.0.1:27017/fund_data
 
 ten-stock:
   list:
     - name: US达达
-      code: 1161535
+      code: gb_dada
       holding-rate: 5.06
       isUSA: true
       dataSource: sina
 
     - name: HK美团点评
-      code: 1096030
+      code: rt_hk03690
       holdingRate: 4.91
       isUSA: false
       dataSource: sina
 
     - name: HK金蝶国际
-      code: 100019
+      code: rt_hk00268
       holdingRate: 4.83
       isUSA: false
       dataSource: sina
@@ -33,7 +43,7 @@ ten-stock:
       dataSource: investing
 
     - name: USA SeaLimited
-      code: 1052403
+      code: gb_se
       holdingRate: 4.4
       isUSA: true
       dataSource: sina
@@ -51,21 +61,13 @@ ten-stock:
       dataSource: investing
 
     - name: HK腾讯控股
-      code: 102047
+      code: rt_hk00700
       holdingRate: 4.12
       isUSA: false
       dataSource: sina
 
     - name: HK金山软件
-      code: 100143
+      code: rt_hk03888
       holdingRate: 4.02
       isUSA: false
       dataSource: sina
-
-
-
-server:
-  port: 8055
-spring:
-  application:
-    name: fund

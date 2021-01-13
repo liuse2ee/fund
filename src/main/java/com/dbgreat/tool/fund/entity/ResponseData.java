@@ -14,6 +14,11 @@ public class ResponseData implements Serializable {
      */
     private Double weightPLPercent;
 
+    /**
+     * 官方发布
+     */
+    private HistoryData historyData;
+
 
     /**
      * 总持仓比例

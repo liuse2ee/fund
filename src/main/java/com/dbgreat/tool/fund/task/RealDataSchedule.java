@@ -11,14 +11,17 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class TaskSchedule {
+public class RealDataSchedule {
     @Autowired
     private DataService dataService;
 
     @Autowired
     private WebSocketService webSocketService;
+    //0 0 5 ? * MON-FRI
+    //0 */10 * * * ?
+    //@Scheduled(initialDelay = 5000, fixedRate = 300000)
 
-    @Scheduled(initialDelay = 5000, fixedRate = 300000)
+    @Scheduled(cron = "0 */30 * ? * MON-FRI")
     public void runTask() {
         log.info("start push message!");
         //获取数据

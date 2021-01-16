@@ -31,7 +31,7 @@ ten-stock:
 
     - name: 韩国三星电子
       code: 43433
-      holdingRate: 4.46
+      holdingRate: 6.3
       isUSA: false
       dataSource: investing
 
